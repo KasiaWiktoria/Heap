@@ -19,19 +19,23 @@ public class Heap<T extends Comparable<T>> implements HeapInterface<T>{
         T top = elements.get(0);
         elements.set(0, elements.get(elements.size()-1));
         elements.remove(elements.size()-1);
+        fix();
         return top;
     }
 
     public void fix(){
-        int actualIndex = elements.size()-1;
-        int parentIndex = parentIndex(actualIndex);
+        for (int i = 0; i < elements.size(); i++) {
+            swap(i);
+        }
+    }
 
-        while (actualIndex > 0 && elements.get(actualIndex).compareTo(elements.get(parentIndex)) > 0 ){
+    public void swap(int actualIndex){
+        int parentIndex = parentIndex(actualIndex);
+        if (actualIndex > 0 && elements.get(actualIndex).compareTo(elements.get(parentIndex)) > 0 ){
             T tmp = elements.get(actualIndex);
             elements.set(actualIndex, elements.get(parentIndex));
             elements.set(parentIndex, tmp);
-            actualIndex = parentIndex;
-            parentIndex = parentIndex(actualIndex);
+            swap(parentIndex);
         }
     }
 
